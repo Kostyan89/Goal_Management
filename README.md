@@ -10,4 +10,5 @@ Stack (python, Django, Postgresql)
 7. add file .env with debug and secret_key settings
 8. Change values debug, secret_key and allowed_hosts in settings.py
 9. Create application core
-10. 
+10. Add model User in core.models
+11. 
