@@ -9,4 +9,5 @@ Stack (python, Django, Postgresql)
 6. Create requirements.txt
 7. add file .env with debug and secret_key settings
 8. Change values debug, secret_key and allowed_hosts in settings.py
-9. 
+9. Create application core
+10. 
