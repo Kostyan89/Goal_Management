@@ -7,4 +7,6 @@ Stack (python, Django, Postgresql)
 4. Create local Git repository and GitHub repository ToDoList(https://github.com/Kostyan89/ToDoList.git)
 5. Push project to GitHub
 6. Create requirements.txt
-7. 
+7. add file .env with debug and secret_key settings
+8. Change values debug, secret_key and allowed_hosts in settings.py
+9. 
