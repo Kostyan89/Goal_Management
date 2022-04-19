@@ -11,4 +11,7 @@ Stack (python, Django, Postgresql)
 8. Change values debug, secret_key and allowed_hosts in settings.py
 9. Create application core
 10. Add model User in core.models
-11. 
+11. Create docker container todo-postgres for db
+12. Set up settings for data_base in settings.py
+13. Create db postgres
+14. 

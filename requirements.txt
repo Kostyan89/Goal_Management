@@ -4,3 +4,4 @@ Django==4.0.1
 sqlparse==0.4.2
 
 django-environ==0.8.1
+psycopg2
