@@ -13,5 +13,4 @@ Stack (python, Django, Postgresql)
 10. Add model User in core.models
 11. Create docker container todo-postgres for db
 12. Set up settings for data_base in settings.py
-13. Create db postgres
-14. 
+13. Create docker-compose.yaml for setting up db
