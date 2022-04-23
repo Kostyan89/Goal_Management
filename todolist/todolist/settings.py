@@ -12,12 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-from os import environ
-import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from dotenv import load_dotenv
 from environ import Env
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
