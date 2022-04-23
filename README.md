@@ -16,4 +16,4 @@ Stack (python, Django, Postgresql)
 13. Create docker-compose.yaml for setting up db
 14. create superuser
 15. add useradmin in core.admin
-16. 
+16. create Dockerfile
