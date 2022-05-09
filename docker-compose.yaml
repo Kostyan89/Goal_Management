@@ -1,6 +1,35 @@
-version: '3.8'
+version: '3.9'
 
-services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:8000
+    environment:
+      DB_HOST: postgres
+      POSTGRES_PASSWORD: postgres
+      SECRET_KEY: secretkey
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      sh -c "python3 manage.py runserver 0.0.0.0:8000"
+  migrations:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "python3 manage.py migrate"
   db:
     image: postgres:12.4-alpine
     volumes:
