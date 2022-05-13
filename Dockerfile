@@ -1,8 +1,7 @@
-FROM python:3.10-slim
+FROM --platform=linux/amd64 python:3.10-slim
 
 WORKDIR app/
-COPY requirements.txt .
-RUN python -m pip install --upgrade pip
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
 RUN pip install -r requirements.txt
-COPY ToDoList/app .
-CMD ./manage.py runserver
+COPY . /app
