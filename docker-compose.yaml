@@ -2,7 +2,7 @@ version: '3.3'
 services:
 
   front:
-    image: sermalenk/skypro-front:lesson_37
+    image: sermalenk/skypro-front:lesson_34
     ports:
       - '80:80'
     depends_on:
@@ -32,8 +32,8 @@ services:
       DB_HOST: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     depends_on:
-    postgres:
-      condition: service_healthy
+      postgres:
+        condition: service_healthy
     command: >
       sh -c "python3 manage.py migrate"
   postgres:
