@@ -22,7 +22,7 @@ version: '3.9'
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_HOST: postgres
+      DB_HOST: ${HOST}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       SECRET_KEY:
     depends_on:
@@ -41,7 +41,7 @@ version: '3.9'
       retries: 5
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: todo-postgres
     restart: always
     ports:
