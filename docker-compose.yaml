@@ -1,5 +1,12 @@
 version: '3.9'
+services:
 
+  front:
+    image: sermalenk/skypro-front:lesson_37
+    ports:
+      - '80:80'
+    depends_on:
+      - api
   api:
     build:
       context: .
@@ -8,7 +15,7 @@ version: '3.9'
       - 80:8000
     environment:
       DB_HOST: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       SECRET_KEY: secretkey
     depends_on:
       postgres:
@@ -22,27 +29,26 @@ version: '3.9'
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_HOST: ${HOST}
+      DB_HOST: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      SECRET_KEY:
     depends_on:
       postgres:
         condition: service_healthy
     command: >
       sh -c "python3 manage.py migrate"
-  db:
+  postgres:
     image: postgres:12.4-alpine
     volumes:
             - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: postgres
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: todo-postgres
     restart: always
     ports:
     - "5432:5432"
