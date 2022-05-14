@@ -12,6 +12,7 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN }} --password-stdin
       - name: docker push
         run: docker push jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
