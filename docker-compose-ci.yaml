@@ -27,9 +27,7 @@ services:
     image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
-      POSTGRES_PASSWORD: ${{DB_PASSWORD}}
-
-
+      POSTGRES_PASSWORD: postgres
     depends_on:
       postgres:
         condition: service_healthy
