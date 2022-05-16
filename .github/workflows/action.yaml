@@ -32,7 +32,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "deploy/docker-compose-ci.yaml, deploy/docker-compose.yaml"
+          source: "deploy/docker-compose.yaml, deploy/docker-compose-ci.yaml"
           target: ToDoList
           strip_components: 1
       - name: run docker-compose
