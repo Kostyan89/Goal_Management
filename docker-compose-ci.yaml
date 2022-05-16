@@ -34,8 +34,8 @@ services:
     volumes:
       - ./todolist:/app/
     command: >
-#      sh -c "python3 manage.py makemigrations &&
-#            python3 manage.py migrate"
+      sh -c "python3 manage.py makemigrations &&
+            python3 manage.py migrate"
 
   postgres:
     image: postgres:12.4-alpine
