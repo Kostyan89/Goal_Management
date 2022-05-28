@@ -4,16 +4,18 @@ services:
   front:
     image: sermalenk/skypro-front:lesson_37
     ports:
-      - '8080:80'
+      - '80:80'
     depends_on:
       - api
 
   api:
     image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     ports:
-      - 80:8000
+      - 8000:8000
     environment:
       DB_HOST: postgres
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     depends_on:
       postgres:
         condition: service_healthy
@@ -28,6 +30,8 @@ services:
     image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     depends_on:
       postgres:
         condition: service_healthy
