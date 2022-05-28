@@ -17,6 +17,8 @@ services:
       - '8000:8000'
     environment:
       DB_HOST: postgres
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     env_file:
       - .env
     depends_on:
@@ -35,6 +37,8 @@ services:
       dockerfile: Dockerfile
     environment:
       DB_HOST: postgres
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     env_file:
       - .env
     depends_on:
