@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, AuthenticationFailed
 
 from core.models import User
 
@@ -30,24 +31,22 @@ class CreateUserSerializer(serializers.ModelSerializer):
             raise ValidationError('passwords are not equal')
         return attrs
 
-    def create(self, validated_data) -> User:
-        return User.objects.create_user(**validated_data)
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
+        return super().create(validated_data)
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True)
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
 
     def validate(self, attrs: dict) -> dict:
-        username = attrs.get('username')
-        password = attrs.get('password')
-        user = authenticate(username=username, password=password)
-        if not user:
-            raise ValidationError('username or password is incorrect')
-        return attrs
+        if user := authenticate(username=attrs['username'], password=attrs['password']):
+            return user
+        raise AuthenticationFailed
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         read_only_fields = ('id',)
@@ -61,8 +60,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UpdatePasswordSerializer(serializers.ModelSerializer):
-    old_password = serializers.CharField(write_only=True)
-    new_password = serializers.CharField(write_only=True, validators=[validate_password])
+    old_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, validators=[validate_password], required=True)
 
     class Meta:
         model = User
@@ -75,7 +74,8 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
             raise ValidationError({'old_password': 'field is incorrect'})
         return attrs
 
-    def update(self, instance: User, validated_data):
-        instance.set_password(validated_data["new_password"])
-        instance.save(update_fields=["password"])
-        return instance
+    def save(self, **kwargs):
+        user: User = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save(updated_fields=['password'])
+        return user
