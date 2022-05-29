@@ -14,7 +14,7 @@ from core.models import User
 from core.serializers import (
     CreateUserSerializer,
     LoginSerializer,
-    UpdateSerializer,
+    UserSerializer,
     UpdatePasswordSerializer,
 )
 
@@ -46,7 +46,7 @@ class LoginView(GenericAPIView):
 class ProfileView(RetrieveUpdateDestroyAPIView):
     model = User
     permission_classes = [IsAuthenticated]
-    serializer_class = UpdateSerializer
+    serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user

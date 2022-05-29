@@ -46,7 +46,7 @@ class LoginSerializer(serializers.Serializer):
         raise AuthenticationFailed
 
 
-class UpdateSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         read_only_fields = ('id',)
