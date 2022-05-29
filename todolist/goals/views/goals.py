@@ -47,3 +47,5 @@ class GoalListView(ListAPIView):
     def get_queryset(self):
         return Goal.objects.filter(
             user=self.request.user)
+
+
