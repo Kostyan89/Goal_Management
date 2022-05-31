@@ -1,5 +1,15 @@
 version: "3.9"
 
+x-environment: &environment-shared
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  DB_HOST: postgres
+  DEBUG: False
+  SECRET_KEY: ${SECRET_KEY}
+  SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+  SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+
 services:
   front:
     image: sermalenk/skypro-front:lesson_37
@@ -10,36 +20,23 @@ services:
 
   api:
     image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    ports:
-      - 8000:8000
-    environment:
-      DB_HOST: postgres
-      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
-      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+    environment: *environment-shared
     depends_on:
       postgres:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
-#    command: >
-#      sh -c "python3 manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - ./todolist:/app/
+    command: >
+      sh -c "python3 manage.py runserver 0.0.0.0:8000"
 
   migrations:
     image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    environment:
-      DB_HOST: postgres
-      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
-      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+    environment: *environment-shared
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./todolist:/app/
     command: >
-      sh -c "python3 manage.py makemigrations &&
-            python3 manage.py migrate"
+      sh -c "python3 manage.py migrate"
 
   postgres:
     image: postgres:12.4-alpine
@@ -53,8 +50,6 @@ services:
       timeout: 5s
       retries: 5
     restart: always
-    ports:
-      - '5434:5434'
     volumes:
       - pg_data:/var/lib/postgresql/data
 
