@@ -156,16 +156,6 @@ STATICFILES_FINDERS = (
 
 )
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+STATIC_ROOT = '/Users/konstantinsamin/PycharmProjects/ToDoList/todovenv/lib/python3.8/site-packages/django/contrib/admin/static'
 
-MEDIA_URL = '/media/'
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
-STATICFILES_DIRS = (
-
-    os.path.join(PROJECT_ROOT, 'assets'),
-
-)
