@@ -67,19 +67,22 @@ class GoalCategory(DatesModelMixin):
     user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
 
+    def __str__(self):
+        return self.title
+
 
 class Goal(DatesModelMixin):
     class Status(models.IntegerChoices):
-        to_do = 1, "К выполнению"
-        in_progress = 2, "В процессе"
-        done = 3, "Выполнено"
-        archived = 4, "Архив"
+        TO_DO = 1, "К выполнению"
+        IN_PROGRESS = 2, "В процессе"
+        DONE = 3, "Выполнено"
+        ARCHIVED = 4, "Архив"
 
     class Priority(models.IntegerChoices):
-        low = 1, "Низкий"
-        medium = 2, "Средний"
-        high = 3, "Высокий"
-        critical = 4, "Критический"
+        LOW = 1, "Низкий"
+        MEDIUM = 2, "Средний"
+        HIGH = 3, "Высокий"
+        CRITICAL = 4, "Критический"
 
     class Meta:
         verbose_name = 'Цель'
@@ -89,16 +92,16 @@ class Goal(DatesModelMixin):
     description = models.TextField(verbose_name='Описание', null=True, blank=True, default=None)
     category = models.ForeignKey(GoalCategory, verbose_name='Категория', on_delete=models.PROTECT)
     status = models.PositiveSmallIntegerField(
-        verbose_name="Статус", choices=Status.choices, default=Status.to_do
+        verbose_name="Статус", choices=Status.choices, default=Status.TO_DO
     )
     priority = models.PositiveSmallIntegerField(
-        verbose_name="Приоритет", choices=Priority.choices, default=Priority.medium
+        verbose_name="Приоритет", choices=Priority.choices, default=Priority.MEDIUM
     )
     due_date = models.DateField(verbose_name='Дедлайн', null=True, blank=True, default=None)
-    user = models.ForeignKey(User, verbose_name='Пользователь',related_name='goals', on_delete=models.PROTECT)
+    user = models.ForeignKey(User, verbose_name='Пользователь', related_name='goals', on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.tiltle
+        return self.title
 
 
 class GoalComment(DatesModelMixin):
@@ -111,6 +114,3 @@ class GoalComment(DatesModelMixin):
 
     def __str__(self):
         return self.text
-
-
-
