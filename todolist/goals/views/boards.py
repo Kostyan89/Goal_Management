@@ -3,7 +3,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from goals.models import Board, Goal
+from goals.models import Goal, Board
 from goals.permissions import BoardPermissions
 from goals.serializers import BoardCreateSerializer, BoardSerializer, BoardListSerializer
 

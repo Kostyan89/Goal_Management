@@ -90,7 +90,7 @@ class Goal(DatesModelMixin):
 
     title = models.CharField(verbose_name='Заголовок', max_length=255)
     description = models.TextField(verbose_name='Описание', null=True, blank=True, default=None)
-    category = models.ForeignKey(GoalCategory, verbose_name='Категория', on_delete=models.PROTECT)
+    category = models.ForeignKey(GoalCategory, verbose_name='Категория', on_delete=models.PROTECT, related_name='goals')
     status = models.PositiveSmallIntegerField(
         verbose_name="Статус", choices=Status.choices, default=Status.TO_DO
     )
