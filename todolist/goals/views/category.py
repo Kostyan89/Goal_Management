@@ -21,7 +21,7 @@ class GoalCategoryListView(ListAPIView):
     serializer_class = GoalCategorySerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    filterset_fields = ['board', 'user']
+    filterset_fields = ['board']
     ordering_fields = ["title", "created"]
     ordering = ["title"]
     search_fields = ["title"]

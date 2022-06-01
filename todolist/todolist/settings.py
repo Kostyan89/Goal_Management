@@ -149,3 +149,7 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/logged-in/"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/login-error/"
 
 STATIC_ROOT = "/ToDoList/todovenv/lib/python3.8/site-packages/django/contrib/admin/static"
+
+REST_FRAMEWORK ={
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+}
