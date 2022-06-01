@@ -27,7 +27,7 @@ services:
       migrations:
         condition: service_completed_successfully
     command: >
-      sh -c "python3 manage.py runserver --insecure 0.0.0.0:8000"
+      sh -c "python3 manage.py runserver 0.0.0.0:8000"
 
   migrations:
     image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
