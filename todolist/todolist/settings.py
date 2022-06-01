@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'todolist',
     'core',
     'goals',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,5 @@ STATIC_ROOT = "/ToDoList/todovenv/lib/python3.8/site-packages/django/contrib/adm
 REST_FRAMEWORK ={
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
+
+BOT_TOKEN = env.str('BOT_TOKEN')
