@@ -157,5 +157,4 @@ STATICFILES_FINDERS = (
 )
 
 
-STATIC_ROOT = '/Users/konstantinsamin/PycharmProjects/ToDoList/todovenv/lib/python3.8/site-packages/django/contrib/admin/static'
-
+STATIC_ROOT = 'static/'
