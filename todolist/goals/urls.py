@@ -17,8 +17,8 @@ urlpatterns = [
 
 
 
-    path('board/create', boards.BoardCreateView.as_view()),
-    path('board/<pk>', boards.BoardView.as_view()),
-    path('board/list', boards.BoardListView.as_view())
+    path("board/create", boards.BoardCreateView.as_view()),
+    path("board/<pk>", boards.BoardView.as_view()),
+    path("board/list", boards.BoardListView.as_view())
    ]
 
