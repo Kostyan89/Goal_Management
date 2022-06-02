@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'todolist',
     'core',
     'goals',
-    # 'bot',
+    'bot',
 ]
 
 MIDDLEWARE = [
