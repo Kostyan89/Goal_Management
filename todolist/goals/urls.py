@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from goals.views import category, goals, comments, boards
 
@@ -19,4 +19,3 @@ urlpatterns = [
     path("board/<pk>", boards.BoardView.as_view()),
     path("board/list", boards.BoardListView.as_view()),
    ]
-

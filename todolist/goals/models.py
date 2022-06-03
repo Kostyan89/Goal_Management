@@ -11,11 +11,11 @@ class DatesModelMixin(models.Model):
     created = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="Дата последнего обновления", auto_now=True)
 
-    # def save(self, *args, **kwargs):
-    #     if not self.id:
-    #         self.created = timezone.now()
-    #     self.updated = timezone.now()
-    #     return super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = timezone.now()
+        self.updated = timezone.now()
+        return super().save(*args, **kwargs)
 
 
 class Board(DatesModelMixin):

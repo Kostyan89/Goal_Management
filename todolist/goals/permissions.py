@@ -56,4 +56,3 @@ class CommentsPermissions(permissions.BasePermission):
             return True
 
         return obj.user == request.user
-
