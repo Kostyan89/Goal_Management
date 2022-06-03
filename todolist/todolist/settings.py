@@ -150,8 +150,10 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/logged-in/"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/login-error/"
 
 
-REST_FRAMEWORK ={
+REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
 
 BOT_TOKEN = env.str('BOT_TOKEN')
+
+STATIC_ROOT = "todolist/todolist/static"
