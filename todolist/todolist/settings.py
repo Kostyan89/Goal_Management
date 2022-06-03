@@ -157,4 +157,4 @@ REST_FRAMEWORK = {
 BOT_TOKEN = env.str('BOT_TOKEN')
 
 STATIC_ROOT = "todolist.todolist.static"
-ADMIN_MEDIA_PREFIX = 'http://todonotes.ga/static/admin/media/'
+ADMIN_MEDIA_PREFIX = '/todolist/todolist/static/admin'
