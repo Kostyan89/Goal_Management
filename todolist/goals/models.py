@@ -8,14 +8,14 @@ class DatesModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    created = models.DateTimeField(verbose_name="Дата создания")
-    updated = models.DateTimeField(verbose_name="Дата последнего обновления")
+    created = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
+    updated = models.DateTimeField(verbose_name="Дата последнего обновления", auto_now=True)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.created = timezone.now()
-        self.updated = timezone.now()
-        return super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         self.created = timezone.now()
+    #     self.updated = timezone.now()
+    #     return super().save(*args, **kwargs)
 
 
 class Board(DatesModelMixin):
@@ -60,9 +60,7 @@ class GoalCategory(DatesModelMixin):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
-    board = models.ForeignKey(
-        Board, verbose_name="Доска", on_delete=models.PROTECT, related_name="categories"
-    )
+    board = models.ForeignKey(Board, verbose_name="Доска", on_delete=models.PROTECT, related_name="categories")
     title = models.CharField(verbose_name="Название", max_length=255)
     user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
