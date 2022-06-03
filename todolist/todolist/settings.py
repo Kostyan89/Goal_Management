@@ -156,4 +156,4 @@ REST_FRAMEWORK = {
 
 BOT_TOKEN = env.str('BOT_TOKEN')
 
-STATIC_ROOT = "todolist/todolist/static"
+STATIC_ROOT = "todolist.todolist.static"
