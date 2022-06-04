@@ -1,0 +1,53 @@
+name: Build and deploy action
+on:
+  push:
+    branches:
+      -main
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone code
+        uses: actions/checkout@v2
+      - name: docker build
+        run: docker build -t jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
+      - name: docker login
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN }} --password-stdin
+      - name: docker push
+        run: docker push jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    env:
+      POSTGRES_PASSWORD: ${{secrets.DB_PASSWORD }}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY}}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      BOT_TOKEN: ${{secrets.BOT_TOKEN}}
+    steps:
+      - name: clone code
+        uses: actions/checkout@v2
+      - name: render configs
+        run: |
+          mkdir deploy
+          cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
+      - name: clone files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "deploy/docker-compose.yaml"
+          target: ToDoList
+          strip_components: 1
+      - name: run docker-compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ToDoList
+            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker compose up -d

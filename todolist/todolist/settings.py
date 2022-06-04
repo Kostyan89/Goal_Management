@@ -10,23 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from environ import Env
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+env = Env()
+env.read_env(BASE_DIR.parent.joinpath('.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s(n3z#5=t^b!vy=ittn4_g%g1!&32tgo8a-ifr%+dtgnlxx2-4'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+# DEBUG = env.bool("DEBUG", False)
+DEBUG = env.bool('DEBUG', default=True)
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -37,6 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
+    'rest_framework',
+    'django_filters',
+    'social_django',
+    'todolist',
+    'core',
+    'goals',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'todolist.urls'
@@ -62,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -69,17 +82,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todolist.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': env.str('POSTGRES_PASSWORD'),
+        'PORT': '5432',
+        'HOST': env.str('DB_HOST', default='127.0.0.1'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -99,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -111,7 +125,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
@@ -121,3 +134,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'core.User'
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.vk.VKOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+)
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_URL_NAMESPACE = "social"
+SOCIAL_AUTH_VK_OAUTH2_KEY = env("SOCIAL_AUTH_VK_OAUTH2_KEY")
+SOCIAL_AUTH_VK_OAUTH2_SECRET = env("SOCIAL_AUTH_VK_OAUTH2_SECRET")
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ["email", "photos", "notify"]
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/logged-in/"
+SOCIAL_AUTH_LOGIN_ERROR_URL = "/login-error/"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+}
+
+BOT_TOKEN = env.str('BOT_TOKEN')
+
+STATIC_ROOT = "todolist.todolist.static"
+
