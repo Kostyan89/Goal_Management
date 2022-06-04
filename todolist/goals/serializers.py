@@ -71,7 +71,7 @@ class GoalCreateSerializer(GoalSerializer):
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault)
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = GoalComment
         fields = '__all__'
