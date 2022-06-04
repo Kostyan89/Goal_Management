@@ -34,3 +34,4 @@ class CommentView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return GoalComment.objects.filter(goal__category__board__participants__user_id=self.request.user.id)
+
