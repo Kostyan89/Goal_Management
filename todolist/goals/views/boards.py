@@ -20,14 +20,14 @@ class BoardView(RetrieveUpdateDestroyAPIView):
     serializer_class = BoardSerializer
 
     def get_queryset(self):
-        return Board.objects.filter(participants__user=self.request.user.id, is_deleted=False)
+        return Board.objects.filter(participants__user_id=self.request.user.id, is_deleted=False)
 
     def perform_destroy(self, instance: Board):
         with transaction.atomic():
             instance.is_deleted = True
             instance.save()
             instance.categories.update(is_deleted=True)
-            Goal.objects.filter(category__board=instance).update(status=Goal.Status.ARCHIVED)
+            Goal.objects.filter(category__board=instance).update(is_deleted=True)
         return instance
 
 
@@ -39,4 +39,4 @@ class BoardListView(ListAPIView):
     ordering = ['title']
 
     def get_queryset(self):
-        return Board.objects.filter(participants__user=self.request.user.id, is_deleted=False)
+        return Board.objects.filter(participants__user_id=self.request.user.id, is_deleted=False)

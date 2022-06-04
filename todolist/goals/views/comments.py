@@ -24,7 +24,7 @@ class CommentListView(ListAPIView):
     ordering = '-id'
 
     def get_queryset(self):
-        return GoalComment.objects.filter(goal_category__board__participants_user=self.request.user)
+        return GoalComment.objects.filter(goal__category__board__participants__user_id=self.request.user.id)
 
 
 class CommentView(RetrieveUpdateDestroyAPIView):
@@ -33,4 +33,4 @@ class CommentView(RetrieveUpdateDestroyAPIView):
     permission_classes = [CommentsPermissions]
 
     def get_queryset(self):
-        return GoalComment.objects.filter(goal_category__board__participants_user=self.request.user)
+        return GoalComment.objects.filter(goal__category__board__participants__user_id=self.request.user.id)

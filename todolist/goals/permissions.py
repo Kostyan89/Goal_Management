@@ -1,9 +1,10 @@
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated
 
 from goals.models import BoardParticipant
 
 
-class BoardPermissions(permissions.BasePermission):
+class BoardPermissions(IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         if not request.user:
             return False
@@ -17,7 +18,7 @@ class BoardPermissions(permissions.BasePermission):
         return BoardParticipant.objects.filter(**filters).exists()
 
 
-class GoalCategoryPermissions(permissions.BasePermission):
+class GoalCategoryPermissions(IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         if not request.user:
             return False
@@ -31,7 +32,7 @@ class GoalCategoryPermissions(permissions.BasePermission):
         return BoardParticipant.objects.filter(**filters).exists()
 
 
-class GoalPermissions(permissions.BasePermission):
+class GoalPermissions(IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         if not request.user:
             return False
@@ -45,7 +46,7 @@ class GoalPermissions(permissions.BasePermission):
         return BoardParticipant.objects.filter(**filters).exists()
 
 
-class CommentsPermissions(permissions.BasePermission):
+class CommentsPermissions(IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         if not request.user:
             return False

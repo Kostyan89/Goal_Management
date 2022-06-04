@@ -24,7 +24,7 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
             role__in=[BoardParticipant.Role.OWNER, BoardParticipant.Role.WRITER],
             user=self.context['request'].user
         ).exists():
-            return ValidationError('You must be owner or writer')
+            raise ValidationError('You must be owner or writer')
 
         return value
 
@@ -65,16 +65,17 @@ class GoalCreateSerializer(GoalSerializer):
                 role__in=[BoardParticipant.Role.OWNER, BoardParticipant.Role.WRITER],
                 user=self.context['request'].user
         ).exists():
-            return ValidationError('You must be owner or writer')
+            raise ValidationError('You must be owner or writer')
 
         return value
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault)
     class Meta:
         model = GoalComment
         fields = '__all__'
-        read_only_fields = ('id', 'created', 'updated')
+        read_only_fields = ('id', 'created', 'updated', 'user')
 
     def validate_goal(self, value):
         if not BoardParticipant.objects.filter(
@@ -82,7 +83,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
                 role__in=[BoardParticipant.Role.OWNER, BoardParticipant.Role.WRITER],
                 user=self.context['request'].user
         ).exists():
-            return ValidationError('You must be owner or writer')
+            raise ValidationError('You must be owner or writer')
 
         return value
 
@@ -137,7 +138,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         owner = self.context['request'].user
-        new_participants = validated_data.pop("participants", [])
+        new_participants = validated_data.chices[1:]
         new_by_id = {part["user"].id: part for part in new_participants}
 
         old_participants = instance.participants.exclude(user=owner)
