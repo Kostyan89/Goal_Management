@@ -117,7 +117,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
 class BoardParticipantSerializer(serializers.ModelSerializer):
     role = serializers.ChoiceField(
-        required=True, choices=BoardParticipant.Role.choices.pop(0)
+        required=True, choices=BoardParticipant.Role.choices[1:]
     )
     user = serializers.SlugRelatedField(
         slug_field="username", queryset=User.objects.all()
@@ -139,7 +139,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         owner = self.context['request'].user
-        new_participants = validated_data.chices[1:]
+        new_participants = validated_data.pop("participants", [])
         new_by_id = {part["user"].id: part for part in new_participants}
 
         old_participants = instance.participants.exclude(user=owner)
