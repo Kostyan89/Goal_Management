@@ -10,12 +10,12 @@ class TgClient:
     def get_url(self, method: str):
         return f"https://api.telegram.org/bot{self.token}/{method}"
 
-    def get_updates(self, offset: int = 0, timeout: int = 60) -> GetUpdatesResponse:
+    def get_updates(self, offset: int = 0, timeout: int = 60):
         url = self.get_url("getUpdates")
         resp = requests.get(url, params={"offset": offset, "timeout": timeout})
         return GetUpdatesResponse(**resp.json())
 
-    def send_message(self, chat_id: int, text: str) -> SendMessageResponse:
+    def send_message(self, chat_id: int, text: str):
         url = self.get_url("sendMessage")
         resp = requests.post(url, json={"chat_id": chat_id, "text": text})
         return SendMessageResponse(**resp.json())

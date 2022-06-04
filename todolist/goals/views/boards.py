@@ -34,8 +34,8 @@ class BoardView(RetrieveUpdateDestroyAPIView):
 class BoardListView(ListAPIView):
     permission_classes = [BoardPermissions]
     serializer_class = BoardListSerializer
-    filter_backends = (OrderingFilter,)
-    ordering = ('title',)
+    filter_backends = [OrderingFilter]
+    ordering = ['title']
 
     def get_queryset(self):
         return Board.objects.filter(participants__user=self.request.user.id, is_deleted=False)
