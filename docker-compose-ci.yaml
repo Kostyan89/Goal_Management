@@ -13,7 +13,7 @@ x-environment: &environment-shared
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson_37
+    image: sermalenk/skypro-front:lesson_38
     ports:
       - '80:80'
     depends_on:
