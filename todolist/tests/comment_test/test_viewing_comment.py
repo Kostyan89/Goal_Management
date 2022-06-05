@@ -16,7 +16,7 @@ def test_viewing_comment(client, logged_in_user1, comment):
 
 
 @pytest.mark.django_db
-def test_detail_comment_unauthorized(client, comment):
+def test_viewing_comment_unauthorized(client, comment):
 
     response = client.get(f"/goals/goal_comment/{comment.id}")
 
