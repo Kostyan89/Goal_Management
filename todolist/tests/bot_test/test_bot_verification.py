@@ -4,9 +4,10 @@ from bot.serializers import TgUserSerializer
 
 
 @pytest.mark.django_db
-def test_bot_verification(client, logged_in_user, verification_code):
+def test_bot_verification(client, logged_in_user, verification_code, user_1):
     expected_response = TgUserSerializer(verification_code).data
     expected_response["verification_code"] = "0cfe170d9d76ca02eb59669e"
+    expected_response["user"] = user_1
     response = client.patch(
         f"/goals/bot/verify",
         {"verification_code": "0cfe170d9d76ca02eb59669e"},

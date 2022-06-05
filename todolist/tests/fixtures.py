@@ -78,7 +78,7 @@ def goal(client, category, logged_in_user):
 
 @pytest.fixture()
 @pytest.mark.django_db
-def category_user1(client,category, user1, board):
+def category_user1(client, category, user1, board):
     return GoalCategory.objects.create(title="test", user=user1, board=board)
 
 
