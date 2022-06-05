@@ -20,13 +20,8 @@ services:
       - api
 
   bot:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      DB_HOST: postgres
-    env_file:
-      - .env
+    image: jokerred/todonotes:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    environment: *environment-shared
     depends_on:
       postgres:
         condition: service_healthy
