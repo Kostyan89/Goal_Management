@@ -89,13 +89,13 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         return value
 
 
-class CommentSerializer(CommentCreateSerializer):
-    user = UserSerializer(read_only=True, source='goal.user')
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = GoalComment
         fields = '__all__'
-        read_only_fields = ('id', 'created', 'updated', 'user', 'goal')
+        read_only_fields = ('id', 'created', 'updated', 'goal')
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
